@@ -1,9 +1,10 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from utils.logger import get_logger
+logger = get_logger("Login_test")
 
-
-class loginPage:
+class LoginPage:
 
     User_name = (By.ID, 'username')
     Password = (By.ID, 'password')
@@ -12,10 +13,12 @@ class loginPage:
 
     def __init__(self, driver):
         self.driver = driver
+        logger.info("driver initialized")
         self.wait = WebDriverWait(self.driver, 10)
 
     def enter_username(self, username):
         self.wait.until(EC.visibility_of_element_located(self.User_name)).clear()
+        logger.info("entering username")
         self.driver.find_element(*self.User_name).send_keys(username)
 
     def enter_password(self, password):
@@ -25,7 +28,8 @@ class loginPage:
     def click_login(self):
         self.driver.find_element(*self.Login).click()
 
-    def wait_for_otp(self):
+    @staticmethod
+    def wait_for_otp():
         print("Waiting for OTP")
         input("Press enter to continue...")
 
@@ -33,7 +37,7 @@ class loginPage:
         self.enter_username(username)
         self.enter_password(password)
         self.click_login()
-        self.wait_for_otp()
+        LoginPage.wait_for_otp()
 
     def is_login_successful(self):
         return self.wait.until(EC.presence_of_element_located(self.Welcome_page))
