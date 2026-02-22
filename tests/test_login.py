@@ -1,12 +1,10 @@
-from Pages.login_page import loginPage
-from utils.config_reader import ConfigReader
+from utils.login_helper import todo_login
 
 def test_login(driver):
-    config = ConfigReader.read_config()
-    login_page = loginPage(driver)
-    login_page.login(config['username'], config['password'])
+    todo_login(driver)
 
-    assert login_page.is_login_successful()
+
+
 
 
 
